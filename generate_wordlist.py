@@ -74,6 +74,9 @@ NME
 AUK
 KHI
 DNC
+EYING
+BARRON
+BARRIE
 '''
 
 # first list gives scores directly, and is
@@ -205,17 +208,17 @@ overrides_all = [*overrides['good'], *overrides['meh']]
 def prev_score(word, s):
     s = float(s)
     if len(word) < 5:
-        if s > 0.65:
+        if s > 0.72:
             return 50
-        elif s > 0.63:
+        elif s > 0.69:
             return 49
-        elif s > 0.61:
+        elif s > 0.65:
             return 48
         else:
-            return (s / 0.61) * 15 + 33
+            return (s / 0.65) * 16 + 32
     if s > 0.75:
         return 50
-    if s > 0.65:
+    if s > 0.69:
         return 49
     return (s / 0.65) * 24 + 25
 
@@ -237,10 +240,13 @@ def combined_score(word,
 
     # trust the word prevalence study on dictionary words
     if word in prev_wl:
+        if word not in lemma_wl:
+            return prev_wl[word]
+
         scores = (
             prev_wl[word],
             prev_wl[word],
-            cross_wl.get(word, 35),
+            lemma_wl[word],
         )
         return mean(scores)
 
